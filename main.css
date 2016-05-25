@@ -1,0 +1,11 @@
+#page-wrap {
+    width: 800px;
+    margin: 0 auto;
+}
+#site a {
+    color: orange;
+}
+
+body {
+    color: #424242;
+}

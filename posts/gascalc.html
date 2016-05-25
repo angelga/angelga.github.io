@@ -1,0 +1,124 @@
+<!doctype html>
+<html>
+    <head>
+        <title>ang3l.xyz - When do natural gas car conversions make sense?</title>
+        <style>
+            #result {
+                font-weight: bold;
+                color: red;
+            }
+            
+            input[type="number"] {
+                width: 50px;
+            }
+        </style>
+        <script type="text/javascript">
+            function useLiters() 
+            {
+                var liters = true;
+                var theForm = document.forms["gasform"];
+                var usage = theForm.elements["usage"];
+                if(usage[0].checked)
+                {
+                    liters = false;
+                }
+
+                return liters;
+            }
+
+            function getInitialCost()
+            {
+                var cost = 0;
+                var theForm = document.forms["gasform"];
+                var conversion = theForm.elements["conversion"];
+                cost = conversion.value;
+                return cost;
+            }
+
+            function getGasolinePrice()
+            {
+                var gasPrice = 0;
+                var theForm = document.forms["gasform"];
+                var price = theForm.elements["gasoline"];
+                gasPrice = price.value;
+                return gasPrice;
+            }
+
+            function getNatGasPrice()
+            {
+                var natGasPrice = 0;
+                var theForm = document.forms["gasform"];
+                var price = theForm.elements["natgas"];
+                natGasPrice = price.value;
+                return natGasPrice;
+            }
+
+            function getUsage()
+            {
+                var usage = 0;
+                var theForm = document.forms["gasform"];
+                usage = theForm.elements["usagenum"].value;
+                return usage;
+            }
+
+            function calculateTotal() {
+                liters = useLiters();
+                conversionCost = getInitialCost();
+                gasPrice = getGasolinePrice();
+                natGasPrice = getNatGasPrice();
+                usage = getUsage();
+
+                if(natGasPrice > gasPrice)
+                {
+                    result.innerHTML = "Gasoline is cheaper than natural gas, no need for conversion.";
+                    return;
+                }
+                if(natGasPrice == gasPrice)
+                {
+                    result.innerHTML = "Gasoline and natural gas cost the same, no need for conversion.";
+                    return;
+                }
+
+                var weeks = 0;
+                if(liters)
+                {
+                    weeks = conversionCost / (usage * gasPrice - (usage * natGasPrice));
+                } else {
+                    weeks = conversionCost / (usage - (usage * natGasPrice/gasPrice));
+                }
+                result.innerHTML = (weeks).toFixed(2) + " weeks or " + (weeks/52).toFixed(2) + " years."
+            }
+        </script>
+        <link href="../main.css" rel="stylesheet" type="text/css" />
+    </head>
+    <body>
+        <div id="page-wrap">
+        <p id="site"><a href="http://ang3l.xyz">ang3l.xyz</a></p>
+        <h1>When do natural gas car conversions make sense?</h1>
+            <p>Converting a car to natural gas can be expensive. In Mexico, this costs about 25,000 mxn, or about 1,400 US dollars. With natural gas costing about 30% less than gasoline, how long does it take to recover your investment.</p>
+            <p><i>All prices are shown in mexican pesos.</i></p>
+            <form id="gasform" onsubmit="return false;">
+                <fieldset>
+                    <legend>Investment costs</legend>
+                    <label for="conversion">Conversion cost: </label><input type="number" name="conversion" id="conversion" min="0" value="25000" onchange="calculateTotal()" required>
+                </fieldset>
+                <fieldset>
+                    <legend>Fuel costs per liter</legend>
+                    <label for="gasoline">Gasoline: </label><input type="number" name="gasoline" id="gasoline"  min="0" value="9.68" step="any" onclick="calculateTotal()" required>
+                    <label for="naturalgas">Natural gas: </label><input type="number" name="natgas" id="natgas" min="0" value="7.5" step="any" onclick="calculateTotal()" required><br>
+                </fieldset>
+                <fieldset>
+                    <legend>Weekly consumption</legend>
+                    <label for="usage">Amount: </label><input type="number" name="usagenum" id="usagenum" min="0" value="400" required> in 
+                    <input type="radio" name="usage" value="pesos" onclick="calculateTotal()" required checked>Pesos
+                    <input type="radio" name="usage" value="liters" onclick="calculateTotal()" required>Liters
+                </fieldset>
+                <fieldset>
+                    <legend>Weeks to recover investment</legend>
+                    <div id="result"></div>
+                </fieldset>
+                <input type="submit" value="Calculate" onclick="calculateTotal()">
+            </form>
+        </div>
+    </body>
+</html>
