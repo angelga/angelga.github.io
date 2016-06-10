@@ -17,3 +17,8 @@ h3 {
 body {
     color: #424242;
 }
+
+.instagram-media {
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
