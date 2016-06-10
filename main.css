@@ -6,6 +6,14 @@
     color: orange;
 }
 
+p.date {
+    font-style: italic;
+}
+
+h3 {
+    font-style: italic;
+}
+
 body {
     color: #424242;
 }
